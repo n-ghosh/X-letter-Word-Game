@@ -21,12 +21,7 @@ Welcome to X-letter Word Game, a brain-teasing game designed to challenge your w
     cd X-letter-Word-Game
     ```
 
-3. Compile the script.
-    ```bash
-    cc -o wordGuess main.cpp
-    ```
-
-4. Run the game.
+3. Run the game.
     ```bash
     ./wordGuess
     ```
@@ -35,7 +30,7 @@ Welcome to X-letter Word Game, a brain-teasing game designed to challenge your w
 
 ## Customization
 
-Feel free to customize the game to suit your preferences or add new features. The main logic can be found in the `word_guess.py` file, and you can modify the word list, adjust the difficulty, or enhance the user interface as needed.
+Feel free to customize the game to suit your preferences or add new features. The main logic can be found in the `main.cpp` file, and you can modify the word list, adjust the difficulty, or enhance the user interface as needed.
 
 ## Contributing
 

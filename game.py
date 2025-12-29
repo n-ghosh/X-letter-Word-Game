@@ -31,8 +31,6 @@ class WordGame:
         self.guess_history = tk.Text(self.master, height=10, width=40, state='disabled')
         self.guess_history.pack(pady=5)
 
-        self.reset_btn = tk.Button(self.master, text="Restart Game", command=self.restart_game)
-        self.reset_btn.pack(pady=5)
 
     def check_guess(self):
         if not self.is_game_on:
@@ -81,16 +79,6 @@ class WordGame:
         self.guess_history.config(state='disabled')
         self.guess_history.see(tk.END)
 
-    def restart_game(self):
-        self.secret = random.choice(self.wordlist)
-        self.is_game_on = True
-        self.result_label.config(text="")
-        self.guess_history.config(state='normal')
-        self.guess_history.delete(1.0, tk.END)
-        self.guess_history.config(state='disabled')
-        self.entry.delete(0, tk.END)
-        self.info_label.config(text=f"Guess the {WORD_LENGTH}-letter secret word! Type '{ESCAPE_KEY}' to give up.")
-        self.entry.focus()
 
 if __name__ == "__main__":
     with open("words_6_letters.txt") as f:

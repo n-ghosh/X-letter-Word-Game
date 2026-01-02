@@ -24,12 +24,15 @@ class WordGame:
         )
         self.mode_label.pack(pady=10)
 
-        self.length_var = tk.IntVar(value=6)
-        self.radio4 = tk.Radiobutton(self.master, text="4 letters", variable=self.length_var, value=4)
-        self.radio6 = tk.Radiobutton(self.master, text="6 letters", variable=self.length_var, value=6)
-        self.radio4.pack()
-        self.radio6.pack()
-
+        self.length_var = tk.IntVar(value=self.word_length)
+        for word_length in (4, 5, 6):
+            rb = tk.Radiobutton(
+                self.master,
+                text=f"{word_length} letters",
+                variable=self.length_var,
+                value=word_length
+            )
+            rb.pack()
         self.start_btn = tk.Button(self.master, text="Start Game", command=self.start_game)
         self.start_btn.pack(pady=10)
 

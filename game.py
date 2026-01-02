@@ -1,23 +1,63 @@
+
 import tkinter as tk
 import random
 
-WORD_LENGTH = 6
 ESCAPE_KEY = "escapekey"
 
 
+
 class WordGame:
-    def __init__(self, master, wordlist):
+    def __init__(self, master):
         self.master = master
         self.master.title("X-letter Word Game")
-        self.wordlist = wordlist
-        self.secret = random.choice(wordlist)
+        self.wordlist = []
+        self.secret = ""
+        self.is_game_on = False
+        self.word_length = 6
+        self.create_mode_widgets()
+
+    def create_mode_widgets(self):
+        self.clear_window()
+        self.mode_label = tk.Label(
+            self.master,
+            text="Select word length to play:"
+        )
+        self.mode_label.pack(pady=10)
+
+        self.length_var = tk.IntVar(value=6)
+        self.radio4 = tk.Radiobutton(self.master, text="4 letters", variable=self.length_var, value=4)
+        self.radio6 = tk.Radiobutton(self.master, text="6 letters", variable=self.length_var, value=6)
+        self.radio4.pack()
+        self.radio6.pack()
+
+        self.start_btn = tk.Button(self.master, text="Start Game", command=self.start_game)
+        self.start_btn.pack(pady=10)
+
+    def start_game(self):
+        self.word_length = self.length_var.get()
+        filename = f"words_{self.word_length}_letters.txt"
+        try:
+            with open(filename) as f:
+                self.wordlist = [line.strip().lower() for line in f if len(line.strip()) == self.word_length]
+        except FileNotFoundError:
+            tk.messagebox.showerror("File Not Found", f"Could not find {filename}.")
+            return
+        if not self.wordlist:
+            tk.messagebox.showerror("No Words", f"No words of length {self.word_length} found in {filename}.")
+            return
+        self.secret = random.choice(self.wordlist)
         self.is_game_on = True
         self.create_widgets()
 
+    def clear_window(self):
+        for widget in self.master.winfo_children():
+            widget.destroy()
+
     def create_widgets(self):
+        self.clear_window()
         self.info_label = tk.Label(
             self.master,
-            text=f"Guess the {WORD_LENGTH}-letter secret word! Type '{ESCAPE_KEY}' to give up.",
+            text=f"Guess the {self.word_length}-letter secret word! Type '{ESCAPE_KEY}' to give up."
         )
         self.info_label.pack(pady=10)
 
@@ -50,12 +90,12 @@ class WordGame:
             )
             self.is_game_on = False
             return
-        if len(guess) != WORD_LENGTH:
-            self.result_label.config(text=f"Error: Enter a {WORD_LENGTH}-letter word.")
+        if len(guess) != self.word_length:
+            self.result_label.config(text=f"Error: Enter a {self.word_length}-letter word.")
             return
         if guess == self.secret:
             self.result_label.config(text="Congratulations! You found the secret word!")
-            self.append_history(guess, WORD_LENGTH, WORD_LENGTH)
+            self.append_history(guess, self.word_length, self.word_length)
             self.is_game_on = False
             return
         letter_match, position_match = self.process_guess(guess, self.secret)
@@ -92,11 +132,8 @@ class WordGame:
         self.guess_history.see(tk.END)
 
 
+
 if __name__ == "__main__":
-    with open("words_6_letters.txt") as f:
-        wordlist = [
-            line.strip().lower() for line in f if len(line.strip()) == WORD_LENGTH
-        ]
     root = tk.Tk()
-    game = WordGame(root, wordlist)
+    game = WordGame(root)
     root.mainloop()

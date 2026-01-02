@@ -106,7 +106,7 @@ class WordGame:
             self.result_label.config(
                 text=f"You gave up! The secret word was: {self.secret}"
             )
-            self.is_game_on = False
+            self.end_game()
             return
         if len(guess) != self.word_length:
             self.result_label.config(text=f"Error: Enter a {self.word_length}-letter word.")
@@ -114,13 +114,19 @@ class WordGame:
         if guess == self.secret:
             self.result_label.config(text="Congratulations! You found the secret word!")
             self.append_history(guess, self.word_length, self.word_length)
-            self.is_game_on = False
+            self.end_game()
             return
         letter_match, position_match = self.process_guess(guess, self.secret)
         self.result_label.config(
             text=f"{guess} has {letter_match} letter(s) in secret word, {position_match} in correct position."
         )
         self.append_history(guess, letter_match, position_match)
+
+    def end_game(self):
+        self.is_game_on = False
+        self.result_label.config(text=f"Game Over! The secret word was: {self.secret}")
+        if not self.show_history:
+            self.toggle_history()
 
     def process_guess(self, guess, secret):
         letter_match = 0

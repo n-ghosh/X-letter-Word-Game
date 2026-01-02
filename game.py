@@ -74,8 +74,23 @@ class WordGame:
         self.result_label = tk.Label(self.master, text="", font=("Arial", 12))
         self.result_label.pack(pady=10)
 
+        # Toggle button for guess history
+        self.show_history = True
+        self.toggle_btn = tk.Button(self.master, text="Hide Guess History", command=self.toggle_history)
+        self.toggle_btn.pack(pady=2)
+
         self.guess_history = tk.Text(self.master, height=10, width=40, state="disabled")
         self.guess_history.pack(pady=5)
+
+    def toggle_history(self):
+        if self.show_history:
+            self.guess_history.pack_forget()
+            self.toggle_btn.config(text="Show Guess History")
+            self.show_history = False
+        else:
+            self.guess_history.pack(pady=5)
+            self.toggle_btn.config(text="Hide Guess History")
+            self.show_history = True
 
     def check_guess(self):
         if not self.is_game_on:

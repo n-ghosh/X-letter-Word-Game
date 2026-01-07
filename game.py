@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import random
 
 ESCAPE_KEY = "escapekey"
@@ -44,10 +45,10 @@ class WordGame:
                     if len(line.strip()) == self.word_length
                 ]
         except FileNotFoundError:
-            tk.messagebox.showerror("File Not Found", f"Could not find {filename}.")
+            messagebox.showerror("File Not Found", f"Could not find {filename}.")
             return
         if not self.wordlist:
-            tk.messagebox.showerror(
+            messagebox.showerror(
                 "No Words",
                 f"No words of length {self.word_length} found in {filename}.",
             )
